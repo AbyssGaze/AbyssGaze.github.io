@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-01-13T09:05:37.000Z</updated>
+  <updated>2017-01-13T09:27:44.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,14 +20,13 @@
     <link href="http://yoursite.com/2017/01/13/mac%E4%B8%8Bhexo%E6%90%AD%E5%BB%BAgithub%E5%8D%9A%E5%AE%A2/"/>
     <id>http://yoursite.com/2017/01/13/mac下hexo搭建github博客/</id>
     <published>2017-01-13T08:12:39.000Z</published>
-    <updated>2017-01-13T09:05:37.000Z</updated>
+    <updated>2017-01-13T09:27:44.000Z</updated>
     
     <content type="html"><![CDATA[<p>之所以想写博客，主要是为了记录研一和研二相关的研究，以及遇到的相关问题的解决方法，以便和大家一起交流学习，也是一个反刍的过程，搭建hexo下的博客很方便，在此我的第一篇博客便是如何搭建github静态博客。</p>
-<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><pre><code>搭建好[Hexo](https://hexo.io/docs/)的博客，需要依赖于Node.js和Git，所以在安装hexo前需要先安装Node.js和Git，
-</code></pre><h2 id="1-安装-Node-js"><a href="#1-安装-Node-js" class="headerlink" title="1.安装 Node.js"></a>1.安装 Node.js</h2><pre><code>[Node.js]，(https://nodejs.org/en/)下载的是v6.9.4 LTS版本，一路点下来就完美地完成安装。
-</code></pre><h2 id="2-安装-Git"><a href="#2-安装-Git" class="headerlink" title="2.安装 Git"></a>2.安装 Git</h2><pre><code>默认看到此篇博客的已经在电脑上安装了git，当然，没有安装的童鞋可以安装homebrew然后安装git，或者直接安装Xcode，在此介绍homebrew下安装git的方法。
-</code></pre><h2 id="3-安装-Hexo"><a href="#3-安装-Hexo" class="headerlink" title="3.安装 Hexo"></a>3.安装 Hexo</h2><pre><code>安装好Node.js和git后就可以安装hexo，在terminal中执行：
-</code></pre><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo npm install -g hexo</div></pre></td></tr></table></figure>
+<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>搭建好<a href="https://hexo.io/docs/" target="_blank" rel="external">Hexo</a>的博客，需要依赖于Node.js和Git，所以在安装hexo前需要先安装Node.js和Git，</p>
+<h2 id="1-安装-Node-js"><a href="#1-安装-Node-js" class="headerlink" title="1.安装 Node.js"></a>1.安装 Node.js</h2><p><a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js</a>下载的是v6.9.4 LTS版本，一路点下来就完美地完成安装。</p>
+<h2 id="2-安装-Git"><a href="#2-安装-Git" class="headerlink" title="2.安装 Git"></a>2.安装 Git</h2><p>默认看到此篇博客的已经在电脑上安装了git，当然，没有安装的童鞋可以安装homebrew然后安装git，或者直接安装Xcode，在此介绍homebrew下安装git的方法。</p>
+<h2 id="3-安装-Hexo"><a href="#3-安装-Hexo" class="headerlink" title="3.安装 Hexo"></a>3.安装 Hexo</h2><p>安装好Node.js和git后就可以安装hexo，在terminal中执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo npm install -g hexo</div></pre></td></tr></table></figure></p>
 <p>必须输入sudo，以获取权限进行读写操作。</p>
 <h1 id="搭建博客"><a href="#搭建博客" class="headerlink" title="搭建博客"></a>搭建博客</h1><h2 id="hexo初始化"><a href="#hexo初始化" class="headerlink" title="hexo初始化"></a>hexo初始化</h2><p>cd到你放置博客的目录下，完成博客文件夹的初始化，其中blog是我们的所有博客在的路径，可以更改为自己喜欢的名称。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo init blog</div></pre></td></tr></table></figure>
@@ -47,7 +46,11 @@
       <category term="随笔" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
-      <category term="hexo, mac, 博客" scheme="http://yoursite.com/tags/hexo-mac-%E5%8D%9A%E5%AE%A2/"/>
+      <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
+    
+      <category term="mac" scheme="http://yoursite.com/tags/mac/"/>
+    
+      <category term="博客" scheme="http://yoursite.com/tags/%E5%8D%9A%E5%AE%A2/"/>
     
   </entry>
   
@@ -56,7 +59,7 @@
     <link href="http://yoursite.com/2017/01/12/ZED%E5%AE%8C%E6%88%90VO/"/>
     <id>http://yoursite.com/2017/01/12/ZED完成VO/</id>
     <published>2017-01-12T15:46:36.000Z</published>
-    <updated>2017-01-13T09:05:23.000Z</updated>
+    <updated>2017-01-13T09:27:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>之所以想写博客，主要是为了记录研一和研二相关的研究，以及遇到的相关问题的解决方法，以便和大家一起交流学习，也是一个反刍的过程。</p>
 ]]></content>
@@ -69,7 +72,7 @@
     </summary>
     
     
-      <category term="工具" scheme="http://yoursite.com/tags/%E5%B7%A5%E5%85%B7/"/>
+      <category term="ZED" scheme="http://yoursite.com/tags/ZED/"/>
     
   </entry>
   
