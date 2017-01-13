@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Y.Chen</title>
+  <title>AbyssGaze</title>
   
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-01-12T15:46:36.000Z</updated>
+  <updated>2017-01-13T08:12:39.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,20 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mac下hexo搭建github博客</title>
+    <link href="http://yoursite.com/2017/01/13/mac%E4%B8%8Bhexo%E6%90%AD%E5%BB%BAgithub%E5%8D%9A%E5%AE%A2/"/>
+    <id>http://yoursite.com/2017/01/13/mac下hexo搭建github博客/</id>
+    <published>2017-01-13T08:12:39.000Z</published>
+    <updated>2017-01-13T08:12:39.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>ZED完成VO</title>
