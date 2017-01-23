@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -73,8 +73,6 @@
 
 
 
-  
-
 
   <link rel="alternate" href="/atom.xml" title="AbyssGaze" type="application/atom+xml" />
 
@@ -97,7 +95,7 @@ marker的生成单独生成对应的marker，具体的函数如下：1234P">
 <meta property="og:description" content="由于要完成3D多视角下数据集的搭建，所以要尽兴多视角下，相机的位姿估计。由于生活中部分物体的纹理信息并不丰富，所以使用sift等特征点然后LM求解并不可靠，而在一侧放置标定板，会因为视角的变化，导致部分被遮挡，所以此处使用了一圈tag来进行位姿估计，在创建board时，犯了一些错误，此处也会将相应的视线代码贴出来，仅供参考。
 marker的生成单独生成对应的marker，具体的函数如下：1234P">
 <meta property="og:image" content="http://yoursite.com/images/board.png">
-<meta property="og:updated_time" content="2017-01-19T17:17:51.000Z">
+<meta property="og:updated_time" content="2017-01-19T17:18:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Opencv创建tag板">
 <meta name="twitter:description" content="由于要完成3D多视角下数据集的搭建，所以要尽兴多视角下，相机的位姿估计。由于生活中部分物体的纹理信息并不丰富，所以使用sift等特征点然后LM求解并不可靠，而在一侧放置标定板，会因为视角的变化，导致部分被遮挡，所以此处使用了一圈tag来进行位姿估计，在创建board时，犯了一些错误，此处也会将相应的视线代码贴出来，仅供参考。
@@ -136,7 +134,7 @@ marker的生成单独生成对应的marker，具体的函数如下：1234P">
 
 
 
-  <title> 使用Opencv创建tag板 | AbyssGaze </title>
+  <title> 使用Opencv创建tag板 | AbyssGaze </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -157,7 +155,7 @@ marker的生成单独生成对应的marker，具体的函数如下：1234P">
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -406,6 +404,22 @@ marker的生成单独生成对应的marker，具体的函数如下：1234P">
       
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/23/pcl点云中长方体的位姿估计/" rel="prev" title="Pcl点云中长方体的位姿估计">
+                Pcl点云中长方体的位姿估计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
 
       
       
@@ -478,7 +492,7 @@ marker的生成单独生成对应的marker，具体的函数如下：1234P">
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -496,7 +510,7 @@ marker的生成单独生成对应的marker，具体的函数如下：1234P">
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -669,7 +683,7 @@ marker的生成单独生成对应的marker，具体的函数如下：1234P">
   
 
     <script type="text/javascript">
-      var disqus_shortname = 'hexo-generator-feed hexo-generator-sitemap';
+      var disqus_shortname = 'hexo-generator-feed hexo-generator-sitemap hexo-math';
       var disqus_identifier = '2017/01/20/使用opencv创建tag板/';
 
       var disqus_title = "使用Opencv创建tag板";
@@ -694,7 +708,24 @@ marker的生成单独生成对应的marker，具体的函数如下：1234P">
         run_disqus_script('embed.js');
       
 
-    </script>
+    </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
   
 
 

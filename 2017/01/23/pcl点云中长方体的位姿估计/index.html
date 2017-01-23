@@ -1,0 +1,759 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="pose estimation,pcl,PCA," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="AbyssGaze" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="由于之前做了物体的分割，要用于机械臂的抓取，所以绕不开物体的位姿估计，所以本篇主要讲解的完成分割后如何进行长方体的位姿估计。
+由于使用的分割算法是从低层次到高层次，所以在分割的结果蕴含了物体各个面的组成信息，并知道了各个面的大小，当然不知道的情况也可以进行处理，之后会进行相关阐述。
+已知物体各个面的组成由于已经知道了各个面的组成信息，首先选择最大面，计算得到对应的法向量，使其物体的z轴向量，进而选">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pcl点云中长方体的位姿估计">
+<meta property="og:url" content="http://yoursite.com/2017/01/23/pcl点云中长方体的位姿估计/index.html">
+<meta property="og:site_name" content="AbyssGaze">
+<meta property="og:description" content="由于之前做了物体的分割，要用于机械臂的抓取，所以绕不开物体的位姿估计，所以本篇主要讲解的完成分割后如何进行长方体的位姿估计。
+由于使用的分割算法是从低层次到高层次，所以在分割的结果蕴含了物体各个面的组成信息，并知道了各个面的大小，当然不知道的情况也可以进行处理，之后会进行相关阐述。
+已知物体各个面的组成由于已经知道了各个面的组成信息，首先选择最大面，计算得到对应的法向量，使其物体的z轴向量，进而选">
+<meta property="og:image" content="http://yoursite.com/images/rotate1.png">
+<meta property="og:image" content="http://yoursite.com/images/rotate2.png">
+<meta property="og:image" content="http://yoursite.com/images/rotate3.png">
+<meta property="og:image" content="http://yoursite.com/images/rotate4.png">
+<meta property="og:updated_time" content="2017-01-23T14:31:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pcl点云中长方体的位姿估计">
+<meta name="twitter:description" content="由于之前做了物体的分割，要用于机械臂的抓取，所以绕不开物体的位姿估计，所以本篇主要讲解的完成分割后如何进行长方体的位姿估计。
+由于使用的分割算法是从低层次到高层次，所以在分割的结果蕴含了物体各个面的组成信息，并知道了各个面的大小，当然不知道的情况也可以进行处理，之后会进行相关阐述。
+已知物体各个面的组成由于已经知道了各个面的组成信息，首先选择最大面，计算得到对应的法向量，使其物体的z轴向量，进而选">
+<meta name="twitter:image" content="http://yoursite.com/images/rotate1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/23/pcl点云中长方体的位姿估计/"/>
+
+
+
+
+
+  <title> Pcl点云中长方体的位姿估计 | AbyssGaze </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">AbyssGaze</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">pcl segmentations, slam, industry visual</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/23/pcl点云中长方体的位姿估计/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Y.Chen">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/myself.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="AbyssGaze">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="AbyssGaze" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Pcl点云中长方体的位姿估计
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-23T21:35:30+08:00">
+                2017-01-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/位姿估计/" itemprop="url" rel="index">
+                    <span itemprop="name">位姿估计</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/23/pcl点云中长方体的位姿估计/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/01/23/pcl点云中长方体的位姿估计/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>由于之前做了物体的分割，要用于机械臂的抓取，所以绕不开物体的位姿估计，所以本篇主要讲解的完成分割后如何进行长方体的位姿估计。</p>
+<p>由于使用的分割算法是从低层次到高层次，所以在分割的结果蕴含了物体各个面的组成信息，并知道了各个面的大小，当然不知道的情况也可以进行处理，之后会进行相关阐述。</p>
+<h1 id="已知物体各个面的组成"><a href="#已知物体各个面的组成" class="headerlink" title="已知物体各个面的组成"></a>已知物体各个面的组成</h1><p>由于已经知道了各个面的组成信息，首先选择最大面，计算得到对应的法向量，使其物体的z轴向量，进而选择次大面，计算得到对应的法向量，使其为物体的y轴向量，进而对其进行一系列的旋转平移操作，完成物体的尺寸和位姿变换关系的计算：<br>（1）首先计算得到物体z轴与相机坐标系下的z轴夹角为$\theta$，将其在中心点旋转$\theta$使物体中心坐标系下的z轴与相机坐标系的z轴平行;<br>（2）将物体中心平移与相机中心重合；<br>（3）计算得到物体y轴与相机坐标系下的y轴夹角为$\beta$，将其在中心点旋转$\beta$使物体中心坐标系下的y轴与相机坐标系的y轴重合。<br>由此可以得到与相机坐标系$Cor_cam与物体坐标系$Cor_obj之间的位姿变化关系中平移向量为，旋转矩阵为：<br>$$ R = \begin{bmatrix} \cos\theta &amp; -\sin\theta &amp; 0 \\ \sin\theta &amp; -\cos\theta &amp; 0 \\ 0 &amp; 0 &amp; 1\end{bmatrix} \begin{bmatrix} \cos\beta &amp; 0 &amp; -\sin\beta \\ 0 &amp; 1 &amp; 0 \\ \sin\beta &amp; \cos\beta &amp; 0 \end{bmatrix} $$</p>
+<div class="group-picture"><div class="group-picture-container"><div class="group-picture-row"><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/images/rotate1.png" width="50%" height="50%"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/images/rotate2.png" width="50%" height="50%"></div><div class="group-picture-column" style="width: 33.333333333333336%;"><img src="/images/rotate3.png" width="50%" height="50%"></div></div><div class="group-picture-row"><div class="group-picture-column" style="width: 100%;"><img src="/images/rotate4.png" width="50%" height="50%"></div></div><div class="group-picture-row"></div></div></div>
+<h1 id="不知道物体各个面的组成"><a href="#不知道物体各个面的组成" class="headerlink" title="不知道物体各个面的组成"></a>不知道物体各个面的组成</h1><p>当原始输入的数据不知道对应面的主成分，此时就需要对应的pca来进行最大面的拟合，然后再进行次小面的计算，然后按照上面的方法完成物体的位姿估计即可。</p>
+<p>源码要回实验室了再上传到博客。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pose-estimation/" rel="tag"># pose estimation</a>
+          
+            <a href="/tags/pcl/" rel="tag"># pcl</a>
+          
+            <a href="/tags/PCA/" rel="tag"># PCA</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/20/使用opencv创建tag板/" rel="next" title="使用Opencv创建tag板">
+                <i class="fa fa-chevron-left"></i> 使用Opencv创建tag板
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/myself.png"
+               alt="Y.Chen" />
+          <p class="site-author-name" itemprop="name">Y.Chen</p>
+          <p class="site-description motion-element" itemprop="description">热爱古典艺术的程序猿</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/AbyssGaze" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#已知物体各个面的组成"><span class="nav-number">1.</span> <span class="nav-text">已知物体各个面的组成</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不知道物体各个面的组成"><span class="nav-number">2.</span> <span class="nav-text">不知道物体各个面的组成</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Y.Chen</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'hexo-generator-feed hexo-generator-sitemap hexo-math';
+      var disqus_identifier = '2017/01/23/pcl点云中长方体的位姿估计/';
+
+      var disqus_title = "Pcl点云中长方体的位姿估计";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
