@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-01-23T15:32:08.000Z</updated>
+  <updated>2017-01-23T15:34:57.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/01/23/pcl%E7%82%B9%E4%BA%91%E4%B8%AD%E9%95%BF%E6%96%B9%E4%BD%93%E7%9A%84%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1/"/>
     <id>http://yoursite.com/2017/01/23/pcl点云中长方体的位姿估计/</id>
     <published>2017-01-23T13:35:30.000Z</published>
-    <updated>2017-01-23T15:32:08.000Z</updated>
+    <updated>2017-01-23T15:34:57.000Z</updated>
     
     <content type="html"><![CDATA[<p>由于之前做了物体的分割，要用于机械臂的抓取，所以绕不开物体的位姿估计，所以本篇主要讲解的完成分割后如何进行长方体的位姿估计。</p>
 <p>由于使用的分割算法是从低层次到高层次，所以在分割的结果蕴含了物体各个面的组成信息，并知道了各个面的大小，当然不知道的情况也可以进行处理，之后会进行相关阐述。</p>
@@ -43,7 +43,7 @@
       <category term="位姿估计" scheme="http://yoursite.com/categories/%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1/"/>
     
     
-      <category term="pose estimation" scheme="http://yoursite.com/tags/pose-estimation/"/>
+      <category term="pose" scheme="http://yoursite.com/tags/pose/"/>
     
       <category term="pcl" scheme="http://yoursite.com/tags/pcl/"/>
     
