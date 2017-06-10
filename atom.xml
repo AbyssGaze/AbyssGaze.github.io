@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-01-28T03:29:26.000Z</updated>
+  <updated>2017-06-10T14:52:37.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,47 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>基础矩阵求解</title>
+    <link href="http://yoursite.com/2017/06/10/%E5%9F%BA%E7%A1%80%E7%9F%A9%E9%98%B5%E6%B1%82%E8%A7%A3/"/>
+    <id>http://yoursite.com/2017/06/10/基础矩阵求解/</id>
+    <published>2017-06-10T11:05:11.000Z</published>
+    <updated>2017-06-10T14:52:37.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近在重新温故双目视觉相关的知识，此篇讲解对极几何、基础矩阵等相关知识。</p>
+<h1 id="对极几何"><a href="#对极几何" class="headerlink" title="对极几何"></a>对极几何</h1><p><img src="/images/对极几何.png" title="board" width="50%" height="50%" align="center/"></p>
+<p>在图中，每台相机都有对应的投影中心$O_l$和$O_r$，对应相机的投影平面$\pi_r$和$\pi_l$，而点$p$、$O_r$和$O_l$所在的平面为极平面。<br>我们选择左相机$O_r$为中心坐标，另一个相机的原点坐标为$T$，则点$P$在左右相机观测到的坐标$P_r$和$P_l$之间满足：<br>$$P_r = R(P_l-T)$$<br>极平面可以表示为：<br>$$(P_l-T)^T(T\times P_l) = 0$$<br>由于叉积可以表示为反对称矩阵的点积，设向量$a = [a_1, a_2, a_3]$和$b = [b_1, b_2, b_3]$则两向量的叉积：<br>$$\begin{array}{cc} a\times b= \begin{bmatrix} i &amp; j &amp; k \\ a_1 &amp; a_2 &amp; a_3 \\ b_1 &amp; b_2 &amp; b_3\end{bmatrix}\\<br>=(a_2b_3-a_3b_2)i + (a_3b_1-a_1b_3)j + (a_1b_2-a_2b_1)k=\left[\begin{array}{ccc}0&amp;-a_3&amp;a_2 \\ a_3&amp;0&amp;-a_1 \\ -a_2&amp;a_1&amp;0\end{array} \right]b\end{array}$$<br>所以有：<br>$$T\times P_l =SP_l= \left[\begin{array}{ccc}0&amp;-T_z&amp;T_y \\ T_z&amp;0&amp;-T_x \\ -T_y&amp;T_x&amp;0\end{array} \right]P_l$$<br>带入得到：<br>$$P_r^TRSP_l=0$$<br>其中本征矩阵$E=RS$而基础矩阵$F=(M_r^{-1})EM_l^{-1}$期中$M$为相机内参。</p>
+<h1 id="基础矩阵求解——八点法"><a href="#基础矩阵求解——八点法" class="headerlink" title="基础矩阵求解——八点法"></a>基础矩阵求解——八点法</h1><p>由于极线约束，$q_r^TFq_l=0$转换有：</p>
+<p>$$\begin{bmatrix}x_0 &amp; y_0 &amp; 1\end{bmatrix} \begin{bmatrix} F^{11} &amp; F^{12} &amp; F^{13} \\ F^{21} &amp; F^{22} &amp; F^{23} \\ F^{31} &amp; F^{32} &amp; F^{33} \end{bmatrix} \begin{bmatrix}x_1 \\ x_2 \\ 1\end{bmatrix}$$<br>将其拆开得到：<br>$$\begin{bmatrix} x_0x_1 &amp; x_0y_1 &amp; x_0 &amp; y_0x_1 &amp; y_0y_1 &amp; y_0 &amp; x_1 &amp; y_1 &amp; 1\end{bmatrix} \begin{bmatrix} F^{11} \\ F^{12} \\ F^{13} \\ F^{21} \\ F^{22} \\ F^{23} \\ F^{31} \\ F^{32} \\ F^{33} \end{bmatrix} = 0$$</p>
+<p>这就类似于最小二乘方程$Ax = 0$<br>目标函数可以转换为：<br>$$ ||Ax|| = x^T(A^TA)x=\lambda^2||x||$$</p>
+<p>所以对八点构成的$8 \times 9$矩阵进行SVD分解，$SVD(A)=[U,S,V]$取矩阵$V$最右奇异值向量为所求。<br>但是在实际计算过程中，匹配点坐标存在误差，我们需要将基础矩阵投影到真正的本征矩阵空间，可以另奇异值最后一个为0。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近在重新温故双目视觉相关的知识，此篇讲解对极几何、基础矩阵等相关知识。&lt;/p&gt;
+&lt;h1 id=&quot;对极几何&quot;&gt;&lt;a href=&quot;#对极几何&quot; class=&quot;headerlink&quot; title=&quot;对极几何&quot;&gt;&lt;/a&gt;对极几何&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;/images/
+    
+    </summary>
+    
+      <category term="多视几何" scheme="http://yoursite.com/categories/%E5%A4%9A%E8%A7%86%E5%87%A0%E4%BD%95/"/>
+    
+    
+      <category term="双目视觉" scheme="http://yoursite.com/tags/%E5%8F%8C%E7%9B%AE%E8%A7%86%E8%A7%89/"/>
+    
+      <category term="基础矩阵" scheme="http://yoursite.com/tags/%E5%9F%BA%E7%A1%80%E7%9F%A9%E9%98%B5/"/>
+    
+      <category term="SVD" scheme="http://yoursite.com/tags/SVD/"/>
+    
+      <category term="ORB_SLAM" scheme="http://yoursite.com/tags/ORB-SLAM/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Pcl点云中长方体的位姿估计</title>
     <link href="http://yoursite.com/2017/01/23/pcl%E7%82%B9%E4%BA%91%E4%B8%AD%E9%95%BF%E6%96%B9%E4%BD%93%E7%9A%84%E4%BD%8D%E5%A7%BF%E4%BC%B0%E8%AE%A1/"/>
     <id>http://yoursite.com/2017/01/23/pcl点云中长方体的位姿估计/</id>
     <published>2017-01-23T13:35:30.000Z</published>
-    <updated>2017-01-28T03:29:26.000Z</updated>
+    <updated>2017-06-10T14:24:36.000Z</updated>
     
     <content type="html"><![CDATA[<p>由于之前做了物体的分割，要用于机械臂的抓取，所以绕不开物体的位姿估计，所以本篇主要讲解的完成分割后如何进行长方体的位姿估计。</p>
 <p>由于使用的分割算法是从低层次到高层次，所以在分割的结果蕴含了物体各个面的组成信息，并知道了各个面的大小，当然不知道的情况也可以进行处理，之后会进行相关阐述。</p>
@@ -57,7 +93,7 @@
     <link href="http://yoursite.com/2017/01/20/%E4%BD%BF%E7%94%A8opencv%E5%88%9B%E5%BB%BAtag%E6%9D%BF/"/>
     <id>http://yoursite.com/2017/01/20/使用opencv创建tag板/</id>
     <published>2017-01-19T16:13:45.000Z</published>
-    <updated>2017-01-24T00:36:27.000Z</updated>
+    <updated>2017-06-10T11:17:43.000Z</updated>
     
     <content type="html"><![CDATA[<p>由于要完成3D多视角下数据集的搭建，所以要尽兴多视角下，相机的位姿估计。由于生活中部分物体的纹理信息并不丰富，所以使用sift等特征点然后LM求解并不可靠，而在一侧放置标定板，会因为视角的变化，导致部分被遮挡，所以此处使用了一圈tag来进行位姿估计，在创建board时，犯了一些错误，此处也会将相应的视线代码贴出来，仅供参考。</p>
 <h1 id="marker的生成"><a href="#marker的生成" class="headerlink" title="marker的生成"></a>marker的生成</h1><p>单独生成对应的marker，具体的函数如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Ptr&lt;aruco::Dictionary&gt; dictionary = aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250);</div><div class="line"></div><div class="line">Mat markerImage;</div><div class="line">aruco::drawMarker(dictionary, <span class="number">10</span>, <span class="number">200</span>, markerImage);</div></pre></td></tr></table></figure></p>
