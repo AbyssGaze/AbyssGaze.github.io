@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-06-14T02:22:08.000Z</updated>
+  <updated>2017-06-14T04:42:31.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hexo多下标不正常解决方案</title>
+    <link href="http://yoursite.com/2017/06/14/hexo%E5%A4%9A%E4%B8%8B%E6%A0%87%E4%B8%8D%E6%AD%A3%E5%B8%B8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
+    <id>http://yoursite.com/2017/06/14/hexo多下标不正常解决方案/</id>
+    <published>2017-06-14T03:20:47.000Z</published>
+    <updated>2017-06-14T04:42:31.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>hexo中下标不能正常显示，出现如：<br><img src="/images/不正常显示.png" title="错误情况" width="50%" height="50%" align="center/"><br>实际上是由于下划线<font color="red">_</font>被渲染成 <font color="red"><em></em></font>标签，修改<font color="red">marked.js</font>即可，<br>在你的工程下输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">find . -name <span class="string">'marked.js'</span></div></pre></td></tr></table></figure></p>
+<p>将<font color="red">marked.js</font>中的第459和490行的代码修改为：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></div><div class="line">em: <span class="regexp">/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/</span>,</div></pre></td></tr></table></figure></p>
+<p>和<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//em: /^_(?=\S)([\s\S]*?\S)_(?!_)|^\*(?=\S)([\s\S]*?\S)\*(?!\*)/</span></div><div class="line">em: <span class="regexp">/^\*(?=\S)([\s\S]*?\S)\*(?!\*)/</span></div></pre></td></tr></table></figure></p>
+<p>然后部署即可。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;hexo中下标不能正常显示，出现如：&lt;br&gt;&lt;img src=&quot;/images/不正常显示.png&quot; title=&quot;错误情况&quot; width=&quot;50%&quot; height=&quot;50%&quot; align=&quot;center/&quot;&gt;&lt;br&gt;实际上是由于下划线&lt;font color=&quot;red&quot;&gt;_
+    
+    </summary>
+    
+      <category term="工具" scheme="http://yoursite.com/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
+    
+  </entry>
   
   <entry>
     <title>基础矩阵求解</title>
