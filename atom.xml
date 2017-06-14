@@ -46,7 +46,7 @@
     <link href="http://yoursite.com/2017/06/10/%E5%9F%BA%E7%A1%80%E7%9F%A9%E9%98%B5%E6%B1%82%E8%A7%A3/"/>
     <id>http://yoursite.com/2017/06/10/基础矩阵求解/</id>
     <published>2017-06-10T11:05:11.000Z</published>
-    <updated>2017-06-14T02:22:08.000Z</updated>
+    <updated>2017-06-14T10:25:31.000Z</updated>
     
     <content type="html"><![CDATA[<p>最近在重新温故双目视觉相关的知识，此篇讲解对极几何、基础矩阵等相关知识。</p>
 <h1 id="对极几何"><a href="#对极几何" class="headerlink" title="对极几何"></a>对极几何</h1><p><img src="/images/对极几何.png" title="对极几何" width="50%" height="50%" align="center/"></p>
@@ -72,8 +72,6 @@
       <category term="基础矩阵" scheme="http://yoursite.com/tags/%E5%9F%BA%E7%A1%80%E7%9F%A9%E9%98%B5/"/>
     
       <category term="SVD" scheme="http://yoursite.com/tags/SVD/"/>
-    
-      <category term="ORB_SLAM" scheme="http://yoursite.com/tags/ORB-SLAM/"/>
     
   </entry>
   
