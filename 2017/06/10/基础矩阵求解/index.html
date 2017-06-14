@@ -97,7 +97,7 @@
 对极几何
 在图中，每台相机都有对应的投影中心$O_l$和$O_r$，对应相机的投影平面$\pi_r$和$\pi_l$，而点$p$、$O_r$和$O_l$所在的平面为极平面。我们选择左相机$O_r$为中心坐标，另一个相机的原点坐标为$T$，则点$P$在左右相机观测到的坐标$P_r$和$P_l$之间满足：$$P_r = R(P_">
 <meta property="og:image" content="http://yoursite.com/images/对极几何.png">
-<meta property="og:updated_time" content="2017-06-10T14:56:40.000Z">
+<meta property="og:updated_time" content="2017-06-14T02:22:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基础矩阵求解">
 <meta name="twitter:description" content="最近在重新温故双目视觉相关的知识，此篇讲解对极几何、基础矩阵等相关知识。
@@ -371,7 +371,7 @@
 <h1 id="对极几何"><a href="#对极几何" class="headerlink" title="对极几何"></a>对极几何</h1><p><img src="/images/对极几何.png" title="对极几何" width="50%" height="50%" align="center/"></p>
 <p>在图中，每台相机都有对应的投影中心$O_l$和$O_r$，对应相机的投影平面$\pi_r$和$\pi_l$，而点$p$、$O_r$和$O_l$所在的平面为极平面。<br>我们选择左相机$O_r$为中心坐标，另一个相机的原点坐标为$T$，则点$P$在左右相机观测到的坐标$P_r$和$P_l$之间满足：<br>$$P_r = R(P_l-T)$$<br>极平面可以表示为：<br>$$(P_l-T)^T(T\times P_l) = 0$$<br>由于叉积可以表示为反对称矩阵的点积，设向量$a = [a_1, a_2, a_3]$和$b = [b_1, b_2, b_3]$则两向量的叉积：<br>$$\begin{array}{cc} a\times b= \begin{bmatrix} i &amp; j &amp; k \\ a_1 &amp; a_2 &amp; a_3 \\ b_1 &amp; b_2 &amp; b_3\end{bmatrix}\\<br>=(a_2b_3-a_3b_2)i + (a_3b_1-a_1b_3)j + (a_1b_2-a_2b_1)k=\left[\begin{array}{ccc}0&amp;-a_3&amp;a_2 \\ a_3&amp;0&amp;-a_1 \\ -a_2&amp;a_1&amp;0\end{array} \right]b\end{array}$$<br>所以有：<br>$$T\times P_l =SP_l= \left[\begin{array}{ccc}0&amp;-T_z&amp;T_y \\ T_z&amp;0&amp;-T_x \\ -T_y&amp;T_x&amp;0\end{array} \right]P_l$$<br>带入得到：<br>$$P_r^TRSP_l=0$$<br>其中本征矩阵$E=RS$而基础矩阵$F=(M_r^{-1})EM_l^{-1}$期中$M$为相机内参。</p>
 <h1 id="基础矩阵求解——八点法"><a href="#基础矩阵求解——八点法" class="headerlink" title="基础矩阵求解——八点法"></a>基础矩阵求解——八点法</h1><p>由于极线约束，$q_r^TFq_l=0$转换有：</p>
-<p>$$\begin{bmatrix}x_0 &amp; y_0 &amp; 1\end{bmatrix} \begin{bmatrix} F^{11} &amp; F^{12} &amp; F^{13} \\ F^{21} &amp; F^{22} &amp; F^{23} \\ F^{31} &amp; F^{32} &amp; F^{33} \end{bmatrix} \begin{bmatrix}x_1 \\ x_2 \\ 1\end{bmatrix}$$<br>将其拆开得到：<br>$$\begin{bmatrix} x_0x_1 &amp; x_0y_1 &amp; x_0 &amp; y_0x_1 &amp; y_0y_1 &amp; y_0 &amp; x_1 &amp; y_1 &amp; 1\end{bmatrix} \begin{bmatrix} F^{11} \\ F^{12} \\ F^{13} \\ F^{21} \\ F^{22} \\ F^{23} \\ F^{31} \\ F^{32} \\ F^{33} \end{bmatrix} = 0$$</p>
+<p>$$\begin{bmatrix}x_0 &amp; y_0 &amp; 1\end{bmatrix} \begin{bmatrix} F_{11} &amp; F_{12} &amp; F_{13} \\ F_{21} &amp; F_{22} &amp; F_{23} \\ F_{31} &amp; F_{32} &amp; F_{33} \end{bmatrix} \begin{bmatrix}x_1 \\ x_2 \\ 1\end{bmatrix}$$<br>将其拆开得到：<br>$$\begin{bmatrix} x_0x_1 &amp; x_0y_1 &amp; x_0 &amp; y_0x_1 &amp; y_0y_1 &amp; y_0 &amp; x_1 &amp; y_1 &amp; 1\end{bmatrix} \begin{bmatrix} F_{11} \\ F_{12} \\ F_{13} \\ F_{21} \\ F_{22} \\ F_{23} \\ F_{31} \\ F_{32} \\ F_{33} \end{bmatrix} = 0$$</p>
 <p>这就类似于最小二乘方程$Ax = 0$<br>目标函数可以转换为：<br>$$ ||Ax|| = x^T(A^TA)x=\lambda^2||x||$$</p>
 <p>所以对八点构成的$8 \times 9$矩阵进行SVD分解，$SVD(A)=[U,S,V]$取矩阵$V$最右奇异值向量为所求。<br>但是在实际计算过程中，匹配点坐标存在误差，我们需要将基础矩阵投影到真正的本征矩阵空间，可以另奇异值最后一个为0。</p>
 
