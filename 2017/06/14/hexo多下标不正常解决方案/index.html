@@ -86,20 +86,20 @@
 
 
 
-<meta name="description" content="hexo中下标不能正常显示，出现如：实际上是由于下划线_被渲染成 标签，修改marked.js即可，在你的工程下输入：1find . -name &apos;marked.js&apos;
-将marked.js中的第459和490行的代码修改为：12//em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,em: /^\*((?:\*\*|[\s\S]">
+<meta name="description" content="hexo中下标不能正常显示，出现如：实际上是由于下划线_被渲染成 &amp;lt;em&amp;gt;标签，修改marked.js即可，在你的工程下输入：1find . -name &apos;marked.js&apos;
+将marked.js中的第459和490行的代码修改为：12//em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,em: /^\*((?:\">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo多下标不正常解决方案">
 <meta property="og:url" content="http://yoursite.com/2017/06/14/hexo多下标不正常解决方案/index.html">
 <meta property="og:site_name" content="AbyssGaze">
-<meta property="og:description" content="hexo中下标不能正常显示，出现如：实际上是由于下划线_被渲染成 标签，修改marked.js即可，在你的工程下输入：1find . -name &apos;marked.js&apos;
-将marked.js中的第459和490行的代码修改为：12//em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,em: /^\*((?:\*\*|[\s\S]">
+<meta property="og:description" content="hexo中下标不能正常显示，出现如：实际上是由于下划线_被渲染成 &amp;lt;em&amp;gt;标签，修改marked.js即可，在你的工程下输入：1find . -name &apos;marked.js&apos;
+将marked.js中的第459和490行的代码修改为：12//em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,em: /^\*((?:\">
 <meta property="og:image" content="http://yoursite.com/images/不正常显示.png">
-<meta property="og:updated_time" content="2017-06-14T04:42:31.000Z">
+<meta property="og:updated_time" content="2017-06-14T05:56:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo多下标不正常解决方案">
-<meta name="twitter:description" content="hexo中下标不能正常显示，出现如：实际上是由于下划线_被渲染成 标签，修改marked.js即可，在你的工程下输入：1find . -name &apos;marked.js&apos;
-将marked.js中的第459和490行的代码修改为：12//em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,em: /^\*((?:\*\*|[\s\S]">
+<meta name="twitter:description" content="hexo中下标不能正常显示，出现如：实际上是由于下划线_被渲染成 &amp;lt;em&amp;gt;标签，修改marked.js即可，在你的工程下输入：1find . -name &apos;marked.js&apos;
+将marked.js中的第459和490行的代码修改为：12//em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,em: /^\*((?:\">
 <meta name="twitter:image" content="http://yoursite.com/images/不正常显示.png">
 
 
@@ -364,8 +364,8 @@
       
 
       
-        <p>hexo中下标不能正常显示，出现如：<br><img src="/images/不正常显示.png" title="错误情况" width="50%" height="50%" align="center/"><br>实际上是由于下划线<font color="red">_</font>被渲染成 <font color="red"><em></em></font>标签，修改<font color="red">marked.js</font>即可，<br>在你的工程下输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">find . -name <span class="string">'marked.js'</span></div></pre></td></tr></table></figure></p>
-<p>将<font color="red">marked.js</font>中的第459和490行的代码修改为：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></div><div class="line">em: <span class="regexp">/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/</span>,</div></pre></td></tr></table></figure></p>
+        <p>hexo中下标不能正常显示，出现如：<br><img src="/images/不正常显示.png" title="错误情况" width="50%" height="50%" align="center/"><br>实际上是由于下划线<code>_</code>被渲染成 <code>&lt;em&gt;</code>标签，修改<code>marked.js</code>即可，<br>在你的工程下输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">find . -name <span class="string">'marked.js'</span></div></pre></td></tr></table></figure></p>
+<p>将<code>marked.js</code>中的第459和490行的代码修改为：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//em: /^\b_((?:[^_]|__)+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span></div><div class="line">em: <span class="regexp">/^\*((?:\*\*|[\s\S])+?)\*(?!\*)/</span>,</div></pre></td></tr></table></figure></p>
 <p>和<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//em: /^_(?=\S)([\s\S]*?\S)_(?!_)|^\*(?=\S)([\s\S]*?\S)\*(?!\*)/</span></div><div class="line">em: <span class="regexp">/^\*(?=\S)([\s\S]*?\S)\*(?!\*)/</span></div></pre></td></tr></table></figure></p>
 <p>然后部署即可。</p>
 
